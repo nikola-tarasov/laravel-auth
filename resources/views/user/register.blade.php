@@ -9,7 +9,9 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-4 ">
-            <form>
+            <form action="{{route('store.register')}}" method="post">
+                @csrf
+
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Login</label>
                     <input name="name" type="text" class="form-control" id="exampleInputPassword1">
