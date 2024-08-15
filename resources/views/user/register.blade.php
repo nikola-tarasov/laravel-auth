@@ -9,26 +9,25 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-4 ">
-            <form action="{{route('store.register')}}" method="post">
+            <form action="{{route('store.register')}}" method="post" >
                 @csrf
-
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Login</label>
-                    <input name="name" type="text" class="form-control" id="exampleInputPassword1">
+                    <label for="name" class="form-label">Login</label>
+                    <input name="name" type="text" class="form-control" id="name">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label for="email" class="form-label">Email</label>
+                    <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <label for="password" class="form-label">Password</label>
+                    <input name="password" type="password"  class="form-control" id="password">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password confirm</label>
-                    <input  name="password_confirmation" class="form-control" id="exampleInputPassword1">
+                    <label for="password_confirmation" class="form-label">Password confirm</label>
+                    <input  name="password_confirmation" type="password" class="form-control" id="password_confirmation">
                 </div>
-                <button name="password" type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                <button  type="submit" class="btn btn-primary">Зарегистрироваться</button>
                 <a href="{{route('login')}}">Alredy register?</a>
             </form>
         </div>
