@@ -23,10 +23,7 @@
                     <label for="password" class="form-label">Password</label>
                     <input name="password" type="password"  class="form-control" id="password">
                 </div>
-                <div class="mb-3">
-                    <label for="password_confirmation" class="form-label">Password confirm</label>
-                    <input  name="password_confirmation" type="password" class="form-control" id="password_confirmation">
-                </div>
+
                 <button  type="submit" class="btn btn-primary">Зарегистрироваться</button>
                 <a href="{{route('login')}}">Alredy register?</a>
             </form>
