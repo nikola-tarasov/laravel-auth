@@ -28,9 +28,9 @@ class UserController extends Controller
         ]);
 
 
-        /**
-         * записать в бд при помощи класса модели User и класса Request
-         */
+//        /**
+//         * записать в бд при помощи класса модели User и класса Request
+//         */
 //        $user = new User();
 //
 //        $user->name = $request->name;
@@ -49,6 +49,7 @@ class UserController extends Controller
 
         /**
          * cоздаем событие после регистрации для отправки письма
+         * @param передаем пользователя
          */
         event(new Registered($user));
 
@@ -65,14 +66,29 @@ class UserController extends Controller
 
     }
 
-
+    //страница зарегистрированого пользоватя (админка)
     public function dashboard()
     {
         return view('user.dashboard');
     }
 
+
+
     public function register()
     {
         return view('user\register');
+    }
+
+
+    /**
+     * разлогирование пользователя и переход на главную страницу
+     * @return View
+     *
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect()->route('login');
     }
 }
