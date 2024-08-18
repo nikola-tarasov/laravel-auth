@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Couchbase\View;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
@@ -43,15 +45,30 @@ class UserController extends Controller
         /**
          * запись в бд через статический метод после валидации массовым способом при помощи Request
          */
-        User::query()->create($request->all());
-
+        $user = User::query()->create($request->all());
 
         /**
+         * cоздаем событие после регистрации для отправки письма
+         */
+        event(new Registered($user));
+
+        //аутентификация пользоватя для мидлваре
+        Auth::login($user);
+
+        /**
+         * Перенаправляет пользователя на страницу с сообщением на подтверждения почты
+         *
          * @returns View
          */
-        return redirect('Login');
+        return redirect()->route('verification.notice');
 
 
+    }
+
+
+    public function dashboard()
+    {
+        return view('user.dashboard');
     }
 
     public function register()
