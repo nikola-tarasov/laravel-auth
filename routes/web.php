@@ -47,4 +47,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:3,1'])->name('verification.send');
 
+//маршрут разлогирования
+Route::get('logout', [\App\Http\Controllers\UserController::class, 'logout'])->name('logout');
+
 
