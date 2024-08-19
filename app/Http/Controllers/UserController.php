@@ -7,6 +7,7 @@ use Couchbase\View;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 
 class UserController extends Controller
@@ -16,6 +17,39 @@ class UserController extends Controller
         return view('user\login');
     }
 
+    /**
+     * метод проводит валидацию полей из формы Если проходит то перенпапрвялет на страницу dashboard иначе выводит ошибку
+     * @param Request $request
+     * @return RedirectResponse
+     * @return array $email
+     */
+    public function authenticate(Request $request): RedirectResponse
+    {
+        $credentials = $request->validate([
+            'name' => ['required'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // можно использовать метод router() вместо intended()
+            return redirect()->intended('dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'Неправильный логин или пароль!',
+        ]);
+    }
+
+
+    /**
+     *
+     * метод валидации полей формы
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function store(Request $request)
     {
 
@@ -27,10 +61,8 @@ class UserController extends Controller
 
         ]);
 
-
-//        /**
-//         * записать в бд при помощи класса модели User и класса Request
-//         */
+//        записать в бд при помощи класса модели User и класса Request
+//
 //        $user = new User();
 //
 //        $user->name = $request->name;
@@ -66,7 +98,12 @@ class UserController extends Controller
 
     }
 
-    //страница зарегистрированого пользоватя (админка)
+    /**
+     *
+     * метод страницы зарегистрированого пользоватя (админка)
+     *
+     * @return View
+     */
     public function dashboard()
     {
         return view('user.dashboard');
