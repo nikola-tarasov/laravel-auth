@@ -15,17 +15,25 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-
+//маршрут для аутентифицированого и верифицированного пользователя по почте для вывода его на админку dashboard
 Route::middleware(['auth', 'verified'])->group(function (){
     Route::get('dashboard', [\App\Http\Controllers\UserController::class, 'dashboard'])->name('dashboard');
 });
 
-
+/**
+ *
+ * маршрут обьединеный в группу middleware
+ *1 отправка формы на скрипт входа
+ *2 вывод вида формы
+ *3 скрипт обработки формы регистрации
+ *4 вывод вида формы регистрации
+ */
 Route::middleware('guest')->group(function (){
 
-    /**
-     * вывод путей по контроллерам
-     */
+    //вывод путей по контроллерам
+
+    Route::post('login', [\App\Http\Controllers\UserController::class, 'authenticate'])->name('authenticate');
+
     Route::get('login', [\App\Http\Controllers\UserController::class, 'create'])->name('login');
 
     Route::post('register', [\App\Http\Controllers\UserController::class, 'store'])->name('store.register');
@@ -35,7 +43,7 @@ Route::middleware('guest')->group(function (){
 });
 
 
-
+// маршрут объедененный в группу middleware для отправки письма на почту для потверждения пользователя
 Route::middleware('auth')->group(function (){
 
     //маршрут обработки отправки на подтверждения
