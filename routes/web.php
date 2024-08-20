@@ -40,7 +40,28 @@ Route::middleware('guest')->group(function (){
 
     Route::get('register', [\App\Http\Controllers\UserController::class, 'register'])->name('register');
 
+
+
+//  ВОССТАНОВЛЕНИЯ ЗАБЫТОГО ПАРОЛЯ
+    //ссылка на вид на восстановление пароля
+    Route::get('forgot-password', function () {
+        return view('user.forgot-password');
+    })->name('password.request');
+
+    //обработчик проверки почты в бд
+    Route::post('forgot-password', [\App\Http\Controllers\UserController::class,'forgotPasswordStore'])->name('password.email')->middleware('throttle:3,1');
+
+    //ссылка на форму с почты с токеном для изменения пароля
+    Route::get('/reset-password/{token}', function (string $token) {
+        return view('user.reset-password',['token' => $token]);
+    })->name('password.reset');
+
+    //обработчик формы для изменения пароля
+    Route::post('/reset-password', [\App\Http\Controllers\UserController::class, 'resetPasswordUpdate']
+    )->name('password.update');
+
 });
+
 
 
 // маршрут объедененный в группу middleware для отправки письма на почту для потверждения пользователя
